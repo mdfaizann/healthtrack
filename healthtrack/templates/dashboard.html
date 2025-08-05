@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healthtrack Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script>
+  const stressData = {{ chart_data|tojson }};
+  </script>
+
+  <script src="{{ url_for('static', filename='A:\healthtrack\static\js\charts.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='A:\healthtrack\static\css\styles.css') }}">
+</head>
+
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen font-sans flex">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white shadow-xl rounded-tr-3xl rounded-br-3xl p-6 flex flex-col justify-between hidden md:flex">
+    <div>
+      <h2 class="text-2xl font-bold text-indigo-600 mb-8">Healthtrack</h2>
+      <nav class="space-y-6">
+        <a href="#" class="flex items-center space-x-4 text-indigo-700 font-semibold hover:scale-105 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24"><path d="M12 3v18m9-9H3"/></svg>
+          <span>Water Intake</span>
+        </a>
+        <a href="#" class="flex items-center space-x-4 text-gray-700 hover:text-indigo-600 hover:scale-105 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24"><path d="M12 8c2.21 0 4-1.79 4-4s-1.79-4-4-4"/></svg>
+          <span>Stress Logs</span>
+        </a>
+        <a href="#" class="flex items-center space-x-4 text-gray-700 hover:text-indigo-600 hover:scale-105 transition">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+          <span>Habits</span>
+        </a>
+      </nav>
+    </div>
+    <div class="text-sm text-gray-500">© 2025 Healthtrack</div>
+  </aside>
+
+  <main class="flex-1 p-6 md:p-10">
+  <!-- Welcome -->
+  <section class="mb-6">
+    <h1 class="text-3xl font-bold text-indigo-800">Welcome back, {{ username }} 👋</h1>
+    <p class="text-sm text-gray-600 mt-1">{{ today }}</p>
+  </section>
+
+  <!-- Cards and Chart -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Chart Card -->
+    <div class="bg-white rounded-3xl shadow-2xl p-6 hover:shadow-[0_10px_40px_rgba(0,0,0,0.1)] transition">
+      <h2 class="text-lg font-semibold text-indigo-700 mb-4">Stress Level This Week</h2>
+      <div style="height: 250px;">
+        <canvas id="stressChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Summary Card -->
+    <div class="bg-gradient-to-r from-indigo-400 to-blue-500 text-white rounded-3xl shadow-2xl p-6 flex flex-col justify-between hover:scale-[1.01] transition">
+      <div>
+        <h2 class="text-lg font-semibold mb-4">Today's Summary</h2>
+        <ul class="space-y-3 text-md">
+          <li>💧 Water Intake: <span class="font-bold">{{ water_intake }}L</span></li>
+          <li>✅ Habits Completed: <span class="font-bold">{{ habits_done }}/{{ total_habits }}</span></li>
+          <li>😌 Stress Level: <span class="font-bold">{{ stress_level }}</span></li>
+        </ul>
+      </div>
+      <p class="text-sm mt-6 opacity-80">Keep it up! You're doing great 🌟</p>
+    </div>
+  </section>
+
+  <!-- Habit Tracker -->
+  <section class="mt-10">
+    <h2 class="text-xl font-semibold text-indigo-800 mb-4">Today's Habits</h2>
+    <div class="habit-grid">
+      {% for habit in habits %}
+        <div class="habit-card {% if habit.completed %}habit-done{% endif %}">
+          <div class="habit-info">
+            <div class="habit-emoji">{{ habit.emoji }}</div>
+            <div class="habit-text">
+              <div class="habit-title">{{ habit.name }}</div>
+              <div class="habit-desc">{{ habit.desc }}</div>
+            </div>
+          </div>
+          <input
+            type="checkbox"
+            class="habit-checkbox"
+            {% if habit.completed %}checked{% endif %}
+            disabled
+          />
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+</body>
+</html>

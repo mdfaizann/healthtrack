@@ -1,0 +1,77 @@
+/* === Habit Grid Layout === */
+.habit-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .habit-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .habit-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* === Habit Card Styling === */
+.habit-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 1rem;
+  padding: 1rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.habit-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* === Habit Info Left Section === */
+.habit-info {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.habit-emoji {
+  font-size: 1.8rem;
+}
+
+.habit-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.habit-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+.habit-desc {
+  font-size: 0.875rem;
+  color: #777;
+}
+
+/* === Checkbox Right Section === */
+.habit-checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: #22c55e; /* Tailwind green-500 */
+  cursor: pointer;
+}
+
+/* === Completed Habit Visual === */
+.habit-done {
+  opacity: 0.85;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
